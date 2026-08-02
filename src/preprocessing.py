@@ -12,6 +12,8 @@ class Preprocessor:
         self.ytest_final=None
 
         self.dataset.columns=self.dataset.columns.str.strip()
+        for col in self.dataset.select_dtypes(include="object").columns:
+            self.dataset[col] = self.dataset[col].str.strip()
 
     def encodings(self):
         encoder=OrdinalEncoder(categories=[["Not Graduate","Graduate"]])
@@ -37,7 +39,7 @@ class Preprocessor:
         return xtrain,ytrain,xval,yval,xtest,ytest 
         
 
-    def main(self):
+    def preprocess(self):
         self.encodings()
         xtrain,ytrain,xval,yval,xtest,ytest=self.splitting()
         self.ytrain_final=ytrain
